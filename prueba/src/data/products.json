@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "title": "Paracetamol 500mg",
+        "description": "Analgesic and antipyretic used to treat pain and fever.",
+        "code": "PARA500",
+        "price": 5.99,
+        "status": true,
+        "stock": 100,
+        "category": "Pain Relief",
+        "thumbnails": ["path/to/image1.jpg", "path/to/image2.jpg"]
+    },
+    {
+        "id": 2,
+        "title": "Ibuprofen 200mg",
+        "description": "Nonsteroidal anti-inflammatory drug (NSAID) used to reduce inflammation and treat pain.",
+        "code": "IBU200",
+        "price": 7.49,
+        "status": true,
+        "stock": 150,
+        "category": "Anti-inflammatory",
+        "thumbnails": ["path/to/image3.jpg", "path/to/image4.jpg"]
+    },
+    {
+        "id": 3,
+        "title": "Amoxicillin 500mg",
+        "description": "Antibiotic used to treat a variety of bacterial infections.",
+        "code": "AMOX500",
+        "price": 10.99,
+        "status": true,
+        "stock": 50,
+        "category": "Antibiotic",
+        "thumbnails": ["path/to/image5.jpg"]
+    },
+    {
+        "id": 4,
+        "title": "Loratadine 10mg",
+        "description": "Antihistamine used to relieve allergy symptoms.",
+        "code": "LORA10",
+        "price": 8.25,
+        "status": true,
+        "stock": 80,
+        "category": "Antihistamine",
+        "thumbnails": []
+    },
+    {
+        "id": 5,
+        "title": "Metformin 500mg",
+        "description": "Oral diabetes medicine that helps control blood sugar levels.",
+        "code": "MET500",
+        "price": 12.49,
+        "status": true,
+        "stock": 60,
+        "category": "Diabetes",
+        "thumbnails": ["path/to/image6.jpg", "path/to/image7.jpg"]
+    }
+]
