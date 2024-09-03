@@ -1,17 +1,55 @@
-import {Router} from 'express'
+import { Router } from 'express';
+import { products, carts } from '../data.js';
+// Asegúrate de ajustar la ruta si es necesario
 
-const router = Router()
+const router = Router();
 
-const carts = []
+router.get('/', (req, res) => {
+    res.send(carts);
+});
 
-router.get('/', (req,res)=>{
-    res.send(carts)   //Este codigo nos envia la respuesta del get que seria en este caso el array de usuarios creado fuera de la peticion
-})
+router.get('/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const cart = carts.find(p => p.id === id);
 
-router.post('/', (req,res)=>{
-    const cart = req.body //esta linea nos extrae los datos que el cliente envia los cuales llegan al parametro req desde el body, posteriormente estos los guardamos en la variable user la cual estaremos mandandole en la linea siguiente al array users que tenemos creado fuera de esta function
-    carts.push(cart)
-    res.send({status: 'success'}) //con esta linea estamos mandando un mensaje de que todo esta corriendo bien si se completa lo anterior
-})
+    if (cart) {
+        res.send(cart);
+    } else {
+        res.status(404).send({ error: 'carrito no encontrado' });
+    }
+});
 
-export default router  //Esta linea nos exporta nuestra funcion router
+router.post('/', (req, res) => {
+    const newCart = { id: carts.length + 1, products: [] }; // Crear un nuevo carrito
+    carts.push(newCart);
+    res.status(201).json({ status: 'success', cart: newCart });
+});
+
+router.post('/:cartId/products', (req, res) => {
+    const cartId = parseInt(req.params.cartId);
+    const { productId, quantity } = req.body;
+
+    // Buscar el carrito
+    const cart = carts.find(c => c.id === cartId);
+    if (!cart) {
+        return res.status(404).send({ error: 'Carrito no encontrado' });
+    }
+
+    // Buscar el producto
+    const product = products.find(p => p.id === productId);
+    if (!product) {
+        return res.status(404).send({ error: 'Producto no encontrado' });
+    }
+
+    // Verificar si el producto ya está en el carrito
+    const existingProduct = cart.products.find(p => p.id === productId);
+    if (existingProduct) {
+        existingProduct.quantity += quantity;
+    } else {
+        cart.products.push({ ...product, quantity });
+    }
+
+    res.status(200).json(cart);
+});
+
+export default router;
