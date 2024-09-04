@@ -8,7 +8,7 @@ export const products = [
         status: true,
         stock: 100,
         category: 'Medicina',
-        thumbnails: ['path/to/image1.jpg']
+        thumbnails: []
     },
     {
         id: 2,
@@ -19,7 +19,7 @@ export const products = [
         status: true,
         stock: 50,
         category: 'Medicina',
-        thumbnails: ['path/to/image2.jpg']
+        thumbnails: []
     },
 ];
 
