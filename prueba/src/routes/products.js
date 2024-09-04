@@ -1,4 +1,3 @@
-// carts.js
 import { Router } from 'express';
 import { products, carts } from '../data.js';
 
@@ -50,6 +49,39 @@ router.post('/:cartId/products', (req, res) => {
     }
 
     res.status(200).json(cart);
+});
+
+router.put('/:pid', (req, res) => {
+    const pid = parseInt(req.params.pid);
+    const product = products.find(p => p.id === pid);
+
+    if (product) {
+        // Actualización de campos
+        if (req.body.title) product.title = req.body.title;
+        if (req.body.description) product.description = req.body.description;
+        if (req.body.code) product.code = req.body.code;
+        if (req.body.price) product.price = req.body.price;
+        if (req.body.status !== undefined) product.status = req.body.status;
+        if (req.body.stock) product.stock = req.body.stock;
+        if (req.body.category) product.category = req.body.category;
+        if (req.body.thumbnails) product.thumbnails = req.body.thumbnails;
+
+        res.send({ status: 'Success', product });
+    } else {
+        res.status(404).send({ error: 'Producto no encontrado' });
+    }
+});
+
+router.delete('/:pid', (req, res) => {
+    const pid = parseInt(req.params.pid);
+    const productIndex = products.findIndex(p => p.id === pid);
+
+    if (productIndex !== -1) {
+        products.splice(productIndex, 1);
+        res.send({ status: 'Success', message: 'Producto eliminado correctamente' });
+    } else {
+        res.status(404).send({ error: 'Producto no encontrado' });
+    }
 });
 
 export default router;

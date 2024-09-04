@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { products, carts } from '../data.js';
-// Asegúrate de ajustar la ruta si es necesario
 
 const router = Router();
 
@@ -51,5 +50,7 @@ router.post('/:cartId/products', (req, res) => {
 
     res.status(200).json(cart);
 });
+
+
 
 export default router;
