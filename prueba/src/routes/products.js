@@ -5,6 +5,7 @@ import path from 'path';
 const router = Router();
 const productsFilePath = path.resolve('src/data/productos.json');
 
+// Función para leer los productos del archivo JSON
 const readProducts = async () => {
   try {
     const data = await fs.readFile(productsFilePath, 'utf-8');
@@ -15,6 +16,7 @@ const readProducts = async () => {
   }
 };
 
+// Función para escribir los productos al archivo JSON
 const writeProducts = async (products) => {
   try {
     await fs.writeFile(productsFilePath, JSON.stringify(products, null, 2));
@@ -23,11 +25,15 @@ const writeProducts = async (products) => {
   }
 };
 
+// Ruta para renderizar la vista 'home.handlebars' con la lista de productos
 router.get('/', async (req, res) => {
   const products = await readProducts();
-  res.json(products);
+
+  // Renderizamos la vista 'home' y le pasamos los productos
+  res.render('home', { products });
 });
 
+// Ruta para obtener un producto por su ID
 router.get('/:id', async (req, res) => {
   const products = await readProducts();
   const id = parseInt(req.params.id);
@@ -40,6 +46,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Ruta para agregar un nuevo producto
 router.post('/', async (req, res) => {
   const products = await readProducts();
   const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
@@ -68,6 +75,7 @@ router.post('/', async (req, res) => {
   res.status(201).json({ status: 'Success', product: newProduct });
 });
 
+// Ruta para actualizar un producto
 router.put('/:pid', async (req, res) => {
   const products = await readProducts();
   const pid = parseInt(req.params.pid);
@@ -90,6 +98,7 @@ router.put('/:pid', async (req, res) => {
   }
 });
 
+// Ruta para eliminar un producto
 router.delete('/:pid', async (req, res) => {
   const products = await readProducts();
   const pid = parseInt(req.params.pid);
