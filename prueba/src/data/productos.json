@@ -51,7 +51,18 @@
   },
   {
     "id": 6,
-    "title": "Longaniza 500mg",
+    "title": "puma 500mg",
+    "description": "Analgésico y antipirético utilizado para tratar el dolor y la fiebre.",
+    "code": "PARA500",
+    "price": 5.99,
+    "status": true,
+    "stock": 100,
+    "category": "Pain Relief",
+    "thumbnails": []
+  },
+  {
+    "id": 7,
+    "title": "Azitromicina 500mg",
     "description": "Analgésico y antipirético utilizado para tratar el dolor y la fiebre.",
     "code": "PARA500",
     "price": 5.99,

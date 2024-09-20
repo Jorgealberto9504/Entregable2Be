@@ -1,11 +1,13 @@
-import { Router } from 'express';
+import {
+  Router
+} from 'express';
 import fs from 'fs/promises';
 import path from 'path';
 
 const router = Router();
+
 const productsFilePath = path.resolve('src/data/productos.json');
 
-// Función para leer los productos del archivo JSON
 const readProducts = async () => {
   try {
     const data = await fs.readFile(productsFilePath, 'utf-8');
@@ -16,7 +18,6 @@ const readProducts = async () => {
   }
 };
 
-// Función para escribir los productos al archivo JSON
 const writeProducts = async (products) => {
   try {
     await fs.writeFile(productsFilePath, JSON.stringify(products, null, 2));
@@ -25,15 +26,14 @@ const writeProducts = async (products) => {
   }
 };
 
-// Ruta para renderizar la vista 'home.handlebars' con la lista de productos
 router.get('/', async (req, res) => {
   const products = await readProducts();
 
-  // Renderizamos la vista 'home' y le pasamos los productos
-  res.render('home', { products });
+  res.render('home', {
+    products
+  });
 });
 
-// Ruta para obtener un producto por su ID
 router.get('/:id', async (req, res) => {
   const products = await readProducts();
   const id = parseInt(req.params.id);
@@ -42,17 +42,29 @@ router.get('/:id', async (req, res) => {
   if (product) {
     res.json(product);
   } else {
-    res.status(404).send({ error: 'Producto no encontrado' });
+    res.status(404).send({
+      error: 'Producto no encontrado'
+    });
   }
 });
 
-// Ruta para agregar un nuevo producto
 router.post('/', async (req, res) => {
   const products = await readProducts();
-  const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
+  const {
+    title,
+    description,
+    code,
+    price,
+    status = true,
+    stock,
+    category,
+    thumbnails = []
+  } = req.body;
 
   if (!title || !description || !code || !price || !stock || !category) {
-    return res.status(400).json({ error: 'Todos los campos son obligatorios excepto thumbnails' });
+    return res.status(400).json({
+      error: 'Todos los campos son obligatorios excepto thumbnails'
+    });
   }
 
   const newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
@@ -72,10 +84,12 @@ router.post('/', async (req, res) => {
   products.push(newProduct);
   await writeProducts(products);
 
-  res.status(201).json({ status: 'Success', product: newProduct });
+  res.status(201).json({
+    status: 'Success',
+    product: newProduct
+  });
 });
 
-// Ruta para actualizar un producto
 router.put('/:pid', async (req, res) => {
   const products = await readProducts();
   const pid = parseInt(req.params.pid);
@@ -92,13 +106,17 @@ router.put('/:pid', async (req, res) => {
     if (req.body.thumbnails) product.thumbnails = req.body.thumbnails;
 
     await writeProducts(products);
-    res.json({ status: 'Success', product });
+    res.json({
+      status: 'Success',
+      product
+    });
   } else {
-    res.status(404).send({ error: 'Producto no encontrado' });
+    res.status(404).send({
+      error: 'Producto no encontrado'
+    });
   }
 });
 
-// Ruta para eliminar un producto
 router.delete('/:pid', async (req, res) => {
   const products = await readProducts();
   const pid = parseInt(req.params.pid);
@@ -107,9 +125,14 @@ router.delete('/:pid', async (req, res) => {
   if (productIndex !== -1) {
     products.splice(productIndex, 1);
     await writeProducts(products);
-    res.json({ status: 'Success', message: 'Producto eliminado correctamente' });
+    res.json({
+      status: 'Success',
+      message: 'Producto eliminado correctamente'
+    });
   } else {
-    res.status(404).send({ error: 'Producto no encontrado' });
+    res.status(404).send({
+      error: 'Producto no encontrado'
+    });
   }
 });
 
